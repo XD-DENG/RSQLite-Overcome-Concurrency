@@ -21,7 +21,7 @@ dbInsertConcurrent <- function(db_connection, statement, try_limit = 200){
     
     # if the write operation failed, but the reason is NOT "database is locked", then we stop WHILE loop too, and give the original error message
     # since the write operation failed due to some other reasons and users may need to debug
-    if(class(try_result) == "try-error" & length(grep("database is locked", try_result[1]))==0){
+    if(class(try_result) == "try-error" && !grepl("database is locked", try_result[1])){
       not_finished <- FALSE
       warning(as.character(try_result[1]))
     }
